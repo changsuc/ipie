@@ -33,6 +33,8 @@ from ipie.trial_wavefunction.single_det import SingleDet
 
 import plum
 
+IPIE_GPU_MEM = int(os.environ.get('IPIE_GPU_MEM', 40))
+
 # Note specialisations occur to because:
 # 1. Numba does not allow for mixing types without a warning so need to split
 # real and complex components apart when rchol is real. Green's function is
@@ -675,7 +677,7 @@ def local_energy_single_det_batch_gpu_old(system, hamiltonian, walkers, trial):
     return energy
 
 
-def local_energy_single_det_batch_gpu(system, hamiltonian, walkers, trial, max_mem=2.0):
+def local_energy_single_det_batch_gpu(system, hamiltonian, walkers, trial, max_mem=IPIE_GPU_MEM):
     """Compute local energy for walker batch (all walkers at once).
 
     Single determinant UHF GPU case.

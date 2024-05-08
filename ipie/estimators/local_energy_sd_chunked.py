@@ -16,7 +16,7 @@
 #          Joonho Lee <linusjoonho@gmail.com>
 #
 
-
+import os
 import numpy
 from math import ceil
 
@@ -28,6 +28,8 @@ from ipie.estimators.kernels import exchange_reduction
 
 from ipie.utils.backend import arraylib as xp
 from ipie.utils.backend import synchronize
+
+IPIE_GPU_MEM = int(os.environ.get('IPIE_GPU_MEM', 40))
 
 # Local energy routies for chunked (distributed) integrals. Distributed here
 # means over MPI processes with information typically residing on different
@@ -236,7 +238,7 @@ def exx_kernel_batch_rchol_gpu_low_mem(rchola_chunk, Ghalfa, buff):
 
 
 def local_energy_single_det_uhf_batch_chunked_gpu(
-    system, hamiltonian, walker_batch, trial, max_mem=2.0
+    system, hamiltonian, walker_batch, trial, max_mem=IPIE_GPU_MEM
 ):
     """Compute local energy for walker batch (all walkers at once).
 
